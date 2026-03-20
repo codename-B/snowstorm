@@ -164,7 +164,7 @@ function generateFile() {
 		var s = getValue('variables_creation_vars').join(';')+';';
 		s = s.replace(/;;+/g, ';')
 		if (s) {
-			comps['minecraft:emitter_initialization'] = {
+			comps['emitter_initialization'] = {
 				creation_expression: s,
 			}
 		}
@@ -173,12 +173,12 @@ function generateFile() {
 		var s = getValue('variables_tick_vars').join(';')+';';
 		s = s.replace(/;;+/g, ';')
 		if (s) {
-			if (!comps['minecraft:emitter_initialization']) comps['minecraft:emitter_initialization'] = {};
-			comps['minecraft:emitter_initialization'].per_update_expression = s;
+			if (!comps['emitter_initialization']) comps['emitter_initialization'] = {};
+			comps['emitter_initialization'].per_update_expression = s;
 		}
 	}
 	if (getValue('space_local_position', 'boolean')) {
-		comps['minecraft:emitter_local_space'] = {
+		comps['emitter_local_space'] = {
 			position: getValue('space_local_position', 'boolean'),
 			rotation: getValue('space_local_rotation', 'boolean'),
 			velocity: getValue('space_local_velocity', 'boolean') || undefined,
@@ -187,16 +187,16 @@ function generateFile() {
 	//Rate
 	var mode = getValue('emitter_rate_mode')
 	if (mode === 'instant') {
-		comps['minecraft:emitter_rate_instant'] = {
+		comps['emitter_rate_instant'] = {
 			num_particles: getValue('emitter_rate_amount', true),
 		}
 	} else if (mode === 'steady') {
-		comps['minecraft:emitter_rate_steady'] = {
+		comps['emitter_rate_steady'] = {
 			spawn_rate: getValue('emitter_rate_rate'),
 			max_particles: getValue('emitter_rate_maximum'),
 		}
 	} else if (mode === 'manual') {
-		comps['minecraft:emitter_rate_manual'] = {
+		comps['emitter_rate_manual'] = {
 			max_particles: getValue('emitter_rate_maximum'),
 		}
 	}
@@ -204,16 +204,16 @@ function generateFile() {
 	var mode = getValue('emitter_lifetime_mode')
 	if (mode) {
 		if (mode === 'looping') {
-			comps['minecraft:emitter_lifetime_looping'] = {
+			comps['emitter_lifetime_looping'] = {
 				active_time: getValue('emitter_lifetime_active_time'),
 				sleep_time: getValue('emitter_lifetime_sleep_time'),
 			}
 		} else if (mode === 'once') {
-			comps['minecraft:emitter_lifetime_once'] = {
+			comps['emitter_lifetime_once'] = {
 				active_time: getValue('emitter_lifetime_active_time'),
 			}
 		} else if (mode === 'expression') {
-			comps['minecraft:emitter_lifetime_expression'] = {
+			comps['emitter_lifetime_expression'] = {
 				activation_expression: getValue('emitter_lifetime_activation'),
 				expiration_expression: getValue('emitter_lifetime_expiration'),
 			}
@@ -228,7 +228,7 @@ function generateFile() {
 		looping_travel_distance_events: formatEventTimelineLooping(Config.emitter_events_distance_looping),
 	}
 	if (emitter_events.creation_event || emitter_events.expiration_event || emitter_events.timeline || emitter_events.travel_distance_events || emitter_events.looping_travel_distance_events) {
-		comps['minecraft:emitter_lifetime_events'] = emitter_events;
+		comps['emitter_lifetime_events'] = emitter_events;
 	}
 	//Direction
 	var mode = getValue('particle_direction_mode');
@@ -249,19 +249,19 @@ function generateFile() {
 			if (typeof direction === 'string') {
 				direction = undefined;
 			}
-			comps['minecraft:emitter_shape_point'] = {
+			comps['emitter_shape_point'] = {
 				offset: getValue('emitter_shape_offset'),
 				direction: direction
 			}
 		} else if (mode === 'sphere') {
-			comps['minecraft:emitter_shape_sphere'] = {
+			comps['emitter_shape_sphere'] = {
 				offset: getValue('emitter_shape_offset'),
 				radius: getValue('emitter_shape_radius'),
 				surface_only: getValue('emitter_shape_surface_only'),
 				direction: direction
 			}
 		} else if (mode === 'box') {
-			comps['minecraft:emitter_shape_box'] = {
+			comps['emitter_shape_box'] = {
 				offset: getValue('emitter_shape_offset'),
 				half_dimensions: getValue('emitter_shape_half_dimensions'),
 				surface_only: getValue('emitter_shape_surface_only'),
@@ -276,7 +276,7 @@ function generateFile() {
 					case '001': plane_normal = 'z'; break;
 				}
 			}
-			comps['minecraft:emitter_shape_disc'] = {
+			comps['emitter_shape_disc'] = {
 				offset: getValue('emitter_shape_offset'),
 				radius: getValue('emitter_shape_radius'),
 				plane_normal,
@@ -287,12 +287,12 @@ function generateFile() {
 			if (typeof direction === 'string') {
 				direction = undefined;
 			}
-			comps['minecraft:emitter_shape_custom'] = {
+			comps['emitter_shape_custom'] = {
 				offset: getValue('emitter_shape_offset'),
 				direction: direction
 			}
 		} else if (mode === 'entity_aabb') {
-			comps['minecraft:emitter_shape_entity_aabb'] = {
+			comps['emitter_shape_entity_aabb'] = {
 				surface_only: getValue('emitter_shape_surface_only'),
 				direction: direction
 			}
@@ -308,7 +308,7 @@ function generateFile() {
 		var s = getValue('particle_update_expression').join(';')+';';
 		s = s.replace(/;;+/g, ';')
 		if (s) {
-			comps['minecraft:particle_initialization'] = {
+			comps['particle_initialization'] = {
 				per_update_expression: s,
 			}
 		}
@@ -317,21 +317,21 @@ function generateFile() {
 		var s = getValue('particle_render_expression').join(';')+';';
 		s = s.replace(/;;+/g, ';')
 		if (s) {
-			if (!comps['minecraft:particle_initialization']) comps['minecraft:particle_initialization'] = {};
-			comps['minecraft:particle_initialization'].per_render_expression = s;
+			if (!comps['particle_initialization']) comps['particle_initialization'] = {};
+			comps['particle_initialization'].per_render_expression = s;
 		}
 	}
 
 	//Lifetime
-	comps['minecraft:particle_lifetime_expression'] = {
+	comps['particle_lifetime_expression'] = {
 		max_lifetime: getValue('particle_lifetime_max_lifetime'),
 		expiration_expression: getValue('particle_lifetime_expiration_expression')
 	}
 	if (getValue('particle_lifetime_expire_in')) {
-		comps['minecraft:particle_expire_if_in_blocks'] = getValue('particle_lifetime_expire_in')
+		comps['particle_expire_if_in_blocks'] = getValue('particle_lifetime_expire_in')
 	}
 	if (getValue('particle_lifetime_expire_outside')) {
-		comps['minecraft:particle_expire_if_not_in_blocks'] = getValue('particle_lifetime_expire_outside')
+		comps['particle_expire_if_not_in_blocks'] = getValue('particle_lifetime_expire_outside')
 	}
 
 	//Particle Events
@@ -341,31 +341,31 @@ function generateFile() {
 		timeline: formatEventTimeline(Config.particle_events_timeline),
 	}
 	if (particle_events.creation_event || particle_events.expiration_event || particle_events.timeline) {
-		comps['minecraft:particle_lifetime_events'] = particle_events;
+		comps['particle_lifetime_events'] = particle_events;
 	}
 
 	//Spin
 	var init_rot = getValue('particle_rotation_initial_rotation')
 	var init_rot_rate = getValue('particle_rotation_rotation_rate')
 	if (init_rot || init_rot_rate) {
-		comps['minecraft:particle_initial_spin'] = {
+		comps['particle_initial_spin'] = {
 			rotation: init_rot||undefined,
 			rotation_rate: init_rot_rate||undefined
 		}
 	}
-	comps['minecraft:particle_initial_speed'] = getValue('particle_motion_linear_speed');
+	comps['particle_initial_speed'] = getValue('particle_motion_linear_speed');
 
 	//Motion
 	var mode = getValue('particle_motion_mode')
 	if (mode) {
 		if (mode === 'dynamic') {
-			comps['minecraft:particle_motion_dynamic'] = {
+			comps['particle_motion_dynamic'] = {
 				linear_acceleration: getValue('particle_motion_linear_acceleration'),
 				linear_drag_coefficient: getValue('particle_motion_linear_drag_coefficient'),
 			}
-			if (!comps['minecraft:particle_initial_speed']) comps['minecraft:particle_initial_speed'] = 0;
+			if (!comps['particle_initial_speed']) comps['particle_initial_speed'] = 0;
 		} else if (mode === 'parametric') {
-			comps['minecraft:particle_motion_parametric'] = {
+			comps['particle_motion_parametric'] = {
 				relative_position: getValue('particle_motion_relative_position'),
 				direction: getValue('particle_motion_direction'),
 			}
@@ -379,26 +379,26 @@ function generateFile() {
 			let rotation_acceleration = getValue('particle_rotation_rotation_acceleration');
 			let rotation_drag_coefficient = getValue('particle_rotation_rotation_drag_coefficient');
 			if (rotation_acceleration || rotation_drag_coefficient) {
-				if (!comps['minecraft:particle_motion_dynamic']) comps['minecraft:particle_motion_dynamic'] = {};
-				let dyn_mo = comps['minecraft:particle_motion_dynamic'];
+				if (!comps['particle_motion_dynamic']) comps['particle_motion_dynamic'] = {};
+				let dyn_mo = comps['particle_motion_dynamic'];
 				dyn_mo.rotation_acceleration = rotation_acceleration;
 				dyn_mo.rotation_drag_coefficient = rotation_drag_coefficient;
 			}
 		} else if (mode === 'parametric') {
 			let rotation = getValue('particle_rotation_rotation');
 			if (rotation) {
-				if (!comps['minecraft:particle_motion_parametric']) comps['minecraft:particle_motion_parametric'] = {};
-				comps['minecraft:particle_motion_parametric'].rotation = rotation;
+				if (!comps['particle_motion_parametric']) comps['particle_motion_parametric'] = {};
+				comps['particle_motion_parametric'].rotation = rotation;
 			}
 		}
 	}
 
 	//Kill Plane
-	comps['minecraft:particle_kill_plane'] = getValue('particle_lifetime_kill_plane');
+	comps['particle_kill_plane'] = getValue('particle_lifetime_kill_plane');
 	
 	//Texture
 	let facing_camera_mode = getValue('particle_appearance_facing_camera_mode');
-	var tex_comp = comps['minecraft:particle_appearance_billboard'] = {
+	var tex_comp = comps['particle_appearance_billboard'] = {
 		size: getValue('particle_appearance_size', true),
 		facing_camera_mode: facing_camera_mode,
 		
@@ -438,7 +438,7 @@ function generateFile() {
 	}
 	//Collision
 	if (getValue('particle_collision_toggle')) {
-		comps['minecraft:particle_motion_collision'] = {
+		comps['particle_motion_collision'] = {
 			enabled: getValue('particle_collision_enabled'),
 			collision_drag: getValue('particle_collision_collision_drag'),
 			coefficient_of_restitution: getValue('particle_collision_coefficient_of_restitution'),
@@ -448,7 +448,7 @@ function generateFile() {
 		}
 	}
 	if (getValue('particle_color_light')) {
-		comps['minecraft:particle_appearance_lighting'] = {}
+		comps['particle_appearance_lighting'] = {}
 	}
 	if (getValue('particle_color_mode') === 'static') {
 
@@ -459,14 +459,14 @@ function generateFile() {
 				return parseInt(c, 16) / 255;
 			})
 			if (color.length == 3) color[3] = 1;
-			comps['minecraft:particle_appearance_tinting'] = {
+			comps['particle_appearance_tinting'] = {
 				color
 			}
 		}
 	} else if (getValue('particle_color_mode') === 'gradient') {
 
 		let range = getValue('particle_color_range')
-		comps['minecraft:particle_appearance_tinting'] = {
+		comps['particle_appearance_tinting'] = {
 			color: {
 				interpolant: getValue('particle_color_interpolant'),
 				gradient: Data.appearance.color.inputs.gradient.export(range||1)
@@ -482,7 +482,7 @@ function generateFile() {
 				}
 			})
 			if (!color[3]) color[3] = 1;
-			comps['minecraft:particle_appearance_tinting'] = {
+			comps['particle_appearance_tinting'] = {
 				color: color
 			}
 		}

@@ -79,11 +79,13 @@ function updateConfig(data) {
 	Config.setFromJSON(data);
 
 	if (data.particle_effect) {
+		let comps = data.particle_effect.components || {};
+		let comp = (id) => comps[id] || comps[`minecraft:${id}`];
 		Config.unsupported_fields.events = data.particle_effect.events;
-		Config.unsupported_fields.emitter_lifetime_events = data.particle_effect.components['minecraft:emitter_lifetime_events'];
-		Config.unsupported_fields.particle_lifetime_events = data.particle_effect.components['minecraft:particle_lifetime_events'];
-		if (data.particle_effect.components['minecraft:particle_motion_collision']) {
-			Config.unsupported_fields.collision_events = data.particle_effect.components['minecraft:particle_motion_collision'].events;
+		Config.unsupported_fields.emitter_lifetime_events = comp('emitter_lifetime_events');
+		Config.unsupported_fields.particle_lifetime_events = comp('particle_lifetime_events');
+		if (comp('particle_motion_collision')) {
+			Config.unsupported_fields.collision_events = comp('particle_motion_collision').events;
 		}
 	}
 

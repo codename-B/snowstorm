@@ -416,6 +416,7 @@ const Data = {
 						particles_blend: 'Blend',
 						particles_add: 'Additive',
 						particles_opaque: 'Opaque',
+						pass_through_materials: 'Pass Through',
 						custom: 'Custom:',
 					},
 				}),
