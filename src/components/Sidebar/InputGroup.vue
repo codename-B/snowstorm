@@ -63,15 +63,18 @@
 				<template v-else>
 					<!--Text-->
 					<template v-if="input.type == 'text' || input.type == 'molang'">
-						<div class="prism_editor_outer_wrapper input_vector" v-for="i in input.axis_count" :key="i">
-							<prism-editor :highlight="input.type == 'molang' ? highlightMolang : highlightGeneric"  :line-numbers="false"
-								v-model="input.value[i-1]"
-								:value="input.value[i-1].toString()"
-								:index="i-1"
-								:placeholder="input.placeholder"
-								:autocomplete="input.type == 'molang' ? autocomplete : null"
-								v-on:input="input.emitInput($event)"
-								v-on:focus="input.focus(i-1, $event)" />
+						<div class="input_vector_row" :class="{expanded: input.expanded}" v-for="i in input.axis_count" :key="i">
+							<span v-if="input.expanded" class="axis_label">{{ ['X', 'Y', 'Z', 'W'][i-1] || i }}</span>
+							<div class="prism_editor_outer_wrapper input_vector">
+								<prism-editor :highlight="input.type == 'molang' ? highlightMolang : highlightGeneric"  :line-numbers="false"
+									v-model="input.value[i-1]"
+									:value="input.value[i-1].toString()"
+									:index="i-1"
+									:placeholder="input.placeholder"
+									:autocomplete="input.type == 'molang' ? autocomplete : null"
+									v-on:input="input.emitInput($event)"
+									v-on:focus="input.focus(i-1, $event)" />
+							</div>
 						</div>
 					</template>
 					<!--Number-->
@@ -287,13 +290,38 @@ export default {
 		width: 100%;
 	}
 	.input_right.expanded {
-		display: block;
+		display: flex;
+		flex-direction: column;
+		gap: 4px;
 		width: calc(100% - 7px);
 	}
 	.input_right.expanded input, .input_right.expanded .input_vector  {
 		width: 100% !important;
 		display: block;
 		margin-left: 0;
+	}
+	.input_vector_row {
+		display: contents;
+	}
+	.input_vector_row.expanded {
+		display: flex;
+		flex-direction: row;
+		align-items: flex-start;
+		width: 100%;
+		margin-bottom: 4px;
+	}
+	.input_vector_row.expanded .input_vector {
+		flex: 1;
+		min-width: 0;
+	}
+	.axis_label {
+		width: 16px;
+		flex-shrink: 0;
+		text-align: center;
+		font-size: 11px;
+		font-weight: bold;
+		opacity: 0.6;
+		padding-top: 5px;
 	}
 	.tool.input_expand_button {
 		float: right;

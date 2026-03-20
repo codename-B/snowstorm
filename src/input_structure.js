@@ -390,6 +390,14 @@ const Data = {
 					type: 'checkbox',
 					enabled_modes: [true]
 				}),
+				pass_through_materials: new Input({
+					id: 'particle_collision_pass_through_materials',
+					label: 'Pass Through Materials',
+					info: 'List of block materials that the particle passes through instead of colliding with. Enter material names like Leaves, Plant, etc.',
+					axis_count: -1,
+					type: 'text',
+					enabled_modes: [true]
+				}),
 			}
 		}
 	},
@@ -416,7 +424,6 @@ const Data = {
 						particles_blend: 'Blend',
 						particles_add: 'Additive',
 						particles_opaque: 'Opaque',
-						pass_through_materials: 'Pass Through',
 						custom: 'Custom:',
 					},
 				}),

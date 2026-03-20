@@ -15,7 +15,7 @@ export default class Input {
 		this.placeholder = data.placeholder;
 		this.axis_count = data.axis_count||1;
 		this.required = data.required == true;
-		this.expanded = data.expanded == true;
+		this.expanded = data.expanded == true || (data.axis_count || 1) > 1;
 		this.expandable = ['molang', 'text', 'number'].includes(this.type) && this.axis_count != -1;
 		if (this.type === 'gradient') this.value = data.value || [];
 

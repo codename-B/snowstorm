@@ -445,6 +445,7 @@ function generateFile() {
 			collision_radius: getValue('particle_collision_collision_radius'),
 			expire_on_contact: getValue('particle_collision_expire_on_contact'),
 			events: getValue('particle_collision_events'),
+			pass_through_materials: getValue('particle_collision_pass_through_materials'),
 		}
 	}
 	if (getValue('particle_color_light')) {

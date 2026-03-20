@@ -49,6 +49,9 @@ function updateInputsFromConfig() {
 				input.value = lineify(input.value);
 			}
 		}
+		if (input.axis_count > 1 && input.expandable) {
+			input.expanded = true;
+		}
 		input.update(Data);
 	})
 	Data.variables.curves.curves.splice(0, Infinity);
